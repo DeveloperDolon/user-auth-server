@@ -1,3 +1,6 @@
+import { Secret } from 'jsonwebtoken';
+import config from '../../config';
+import { jwtHelpers } from '../../helpers/jwtHelpers';
 import { User } from '../User/user.model';
 import { TLogin } from './auth.interface';
 
@@ -19,7 +22,16 @@ const loginUserFromDB = async (payload: TLogin) => {
     throw new Error('Password is incorrect!');
   }
 
-  
+  const accessToken = jwtHelpers.generateToken(
+    { username, password },
+    config.jwt_secret as Secret,
+    config.jwt_access_token_expires_time as string,
+  );
+
+  return {
+    accessToken,
+    user: isUserExist,
+  };
 };
 
 export const AuthService = {
