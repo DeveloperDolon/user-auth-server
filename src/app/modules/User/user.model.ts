@@ -21,11 +21,22 @@ const userSchema = new Schema<TUser, UserModel>(
       required: true,
       select: 0,
     },
+    shopNames: {
+      type: [String],
+      required: true,
+      validate: {
+        validator: function (value: string[]) {
+          return Array.isArray(value) && new Set(value).size === value.length;
+        },
+        message: 'Each shop name must be unique within the array.',
+      },
+    },
   },
   {
     timestamps: true,
   },
 );
+userSchema.index({ shopNames: 1 }, { unique: true, sparse: true });
 
 userSchema.pre('save', async function (next) {
   const user = this;
