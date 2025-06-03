@@ -25,7 +25,7 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(limiter);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello world from sparktech backend!');
+  res.send('Hello world from 9am solution jobtask backend!');
 });
 
 app.use('/', router);
