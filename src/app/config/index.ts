@@ -14,5 +14,5 @@ export default {
     process.env.JWT_REFRESH_TOKEN_REXPIRATION_TIME,
   jwt_access_token_expires_time: process.env.JWT_ACCESS_TOKEN_REXPIRATION_TIME,
   strip_publishable_key: process.env.STRIP_PUBLISHABLE_KEY,
-  strip_secret_key: process.env.STRIP_SECRET_KEY
+  strip_secret_key: process.env.STRIP_SECRET_KEY,
 };
