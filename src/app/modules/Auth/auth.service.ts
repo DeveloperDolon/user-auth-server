@@ -5,7 +5,7 @@ import { User } from '../User/user.model';
 import { TLogin } from './auth.interface';
 
 const loginUserFromDB = async (payload: TLogin) => {
-  const { username, password } = payload;
+  const { username, password, remember_me } = payload;
 
   const isUserExist = await User.isUserExistByUsername(username);
 
@@ -25,7 +25,7 @@ const loginUserFromDB = async (payload: TLogin) => {
   const accessToken = jwtHelpers.generateToken(
     { username, password },
     config.jwt_secret as Secret,
-    config.jwt_access_token_expires_time as string,
+    remember_me ? '7d' : '30m',
   );
 
   return {
