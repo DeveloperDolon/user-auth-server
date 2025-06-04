@@ -67,4 +67,4 @@ userSchema.static(
   },
 );
 
-export const User = model<TUser, UserModel>('User', userSchema);
+export const User = model<TUser, UserModel>('AuthUser', userSchema);
