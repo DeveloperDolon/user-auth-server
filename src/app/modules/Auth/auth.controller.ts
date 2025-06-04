@@ -19,6 +19,10 @@ const login = catchAsync(async (req, res) => {
   });
 });
 
+const me = catchAsync(async (req, res) => {
+  
+});
+
 export const AuthController = {
   login,
 };

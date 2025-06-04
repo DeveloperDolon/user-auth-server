@@ -34,6 +34,22 @@ const loginUserFromDB = async (payload: TLogin) => {
   };
 };
 
+const findUserFromDB = async (token: string) => {
+  const decodedToken = jwtHelpers.verifyToken(
+    token,
+    config.jwt_secret as Secret,
+  );
+
+  if (!decodedToken) {
+    throw new Error('Invalid token');
+  }
+
+  const user = await User.findOne({ username: decodedToken.username });
+
+  return user;
+};
+
 export const AuthService = {
   loginUserFromDB,
+  findUserFromDB,
 };
