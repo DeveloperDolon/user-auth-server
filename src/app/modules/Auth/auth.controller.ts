@@ -20,9 +20,34 @@ const login = catchAsync(async (req, res) => {
 });
 
 const me = catchAsync(async (req, res) => {
-  
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return sendResponse(res, {
+      statusCode: 401,
+      success: false,
+      message: 'Unauthorized',
+    });
+  }
+
+  const user = await AuthService.findUserFromDB(token);
+
+  if (!user) {
+    return sendResponse(res, {
+      statusCode: 404,
+      success: false,
+      message: 'User not found',
+    });
+  }
+
+  return sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User retrieved successfully',
+    data: user,
+  });
 });
 
 export const AuthController = {
   login,
+  me
 };
