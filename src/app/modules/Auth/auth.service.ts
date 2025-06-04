@@ -49,7 +49,25 @@ const findUserFromDB = async (token: string) => {
   return user;
 };
 
+const verifyFromDB = async (token: string) => {
+  const decodedToken = jwtHelpers.verifyToken(
+    token,
+    config.jwt_secret as Secret,
+  );
+
+  if (!decodedToken) {
+    throw new Error('Invalid token');
+  }
+
+  const user = await User.findOne({ username: decodedToken.username });
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return user;
+};
+
 export const AuthService = {
   loginUserFromDB,
   findUserFromDB,
+  verifyFromDB,
 };

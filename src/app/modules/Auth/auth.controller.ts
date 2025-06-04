@@ -47,7 +47,36 @@ const me = catchAsync(async (req, res) => {
   });
 });
 
+const verify = catchAsync(async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return sendResponse(res, {
+      statusCode: 401,
+      success: false,
+      message: 'Unauthorized',
+    });
+  }
+
+  const user = await AuthService.verifyFromDB(token);
+
+  if (!user) {
+    return sendResponse(res, {
+      statusCode: 404,
+      success: false,
+      message: 'User not found',
+    });
+  }
+
+  return sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User verified successfully',
+    data: user,
+  });
+});
+
 export const AuthController = {
   login,
-  me
+  me,
+  verify,
 };

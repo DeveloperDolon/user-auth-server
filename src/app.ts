@@ -20,7 +20,19 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, false);
+      const regex = /^http:\/\/([a-zA-Z0-9-]+\.)?localhost:5173\/?$/;
+      if (origin === 'http://localhost:5173' || regex.test(origin)) {
+        return callback(null, true);
+      }
+      callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+  })
+);
 
 app.use(limiter);
 
