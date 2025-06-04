@@ -7,6 +7,6 @@ router.post('/login', AuthController.login);
 
 router.get('/me', AuthController.me);
 
-router.get('/verify', AuthController.verify);
+router.post('/verify', AuthController.verify);
 
 export const AuthRoutes = router;
