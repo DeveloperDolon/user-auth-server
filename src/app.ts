@@ -24,8 +24,12 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, false);
+      const allowedOrigins = [
+        'http://localhost:5173',
+        'https://user-auth-client.netlify.app',
+      ];
       const regex = /^http:\/\/([a-zA-Z0-9-]+\.)?localhost:5173\/?$/;
-      if (origin === 'http://localhost:5173' || regex.test(origin)) {
+      if (allowedOrigins.includes(origin) || regex.test(origin)) {
         return callback(null, true);
       }
       callback(new Error('Not allowed by CORS'));
